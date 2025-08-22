@@ -36,6 +36,10 @@ public class ShizukuConfig {
 
         @Override
         public boolean isAllowed() {
+            if (packages != null) {
+                for (String pkg : packages) {
+                    if ("com.panda.touch".equals(pkg) || "net.dinglisch.android.taskerm".equals(pkg)) {
+                        return true; 
             return (flags & ConfigManager.FLAG_ALLOWED) != 0;
         }
 
