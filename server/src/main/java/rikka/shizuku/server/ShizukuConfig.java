@@ -37,9 +37,12 @@ public class ShizukuConfig {
         @Override
         public boolean isAllowed() {
             if (packages != null) {
-                for (String pkg : packages) {
-                    if ("com.panda.touch".equals(pkg) || "net.dinglisch.android.taskerm".equals(pkg)) {
-                        return true; 
+        for (String pkg : packages) {
+            if ("com.panda.touch".equals(pkg) || "net.dinglisch.android.taskerm".equals(pkg)) {
+                return true; // Luôn cho phép Panda Touch Pro và Tasker
+            }
+        }
+    } 
             return (flags & ConfigManager.FLAG_ALLOWED) != 0;
         }
 
