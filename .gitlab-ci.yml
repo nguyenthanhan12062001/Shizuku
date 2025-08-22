@@ -1,0 +1,29 @@
+stages:
+  - build
+
+variables:
+  ANDROID_HOME: "/usr/local/android-sdk"
+  PATH: "$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
+
+build_debug:
+  stage: build
+  image: openjdk:17
+  script:
+    # Tạo thư mục SDK
+    - mkdir -p $ANDROID_HOME/cmdline-tools
+    # Tải command line tools
+    - wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
+    - unzip cmdline-tools.zip -d $ANDROID_HOME/cmdline-tools
+    # Chấp nhận license SDK
+    - yes | $ANDROID_HOME/cmdline-tools/cmdline-tools/bin/sdkmanager --licenses
+    # Cài SDK cần thiết
+    - $ANDROID_HOME/cmdline-tools/cmdline-tools/bin/sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0"
+    # Cấp quyền chạy gradlew
+    - chmod +x ./gradlew
+    # Build debug APK
+    - ./gradlew assembleDebug
+
+  artifacts:
+    paths:
+      - manager/build/outputs/apk/debug/
+    expire_in: 1 week
